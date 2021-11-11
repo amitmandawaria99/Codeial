@@ -1,8 +1,30 @@
+<link rel="stylesheet" type="text/css" href="<%= assetPath('/css/auth.css') %>">
 <h1>Sign up</h1>
-<form action="/users/create" method="POST">
-  <input type="text" name="name" placeholder="Enter youre name" required>
-  <input type="text" name="email" placeholder="Enter your email" required>
-  <input type="password" name="password" placeholder="Password" required>
-  <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-  <input type="submit" value="Sign Up">
+<form action="/users/create" method="POST" class="login-form">
+
+  <span class="login-signup-header">Sign Up</span>
+
+  <div class="field">
+    <input type="text" name="name" placeholder="Enter youre name" required>
+  </div>
+
+  <div class="field">
+    <input type="text" name="email" placeholder="Enter your email" required>
+  </div>
+
+  <div class="field">
+    <input type="password" name="password" placeholder="Password" required>
+  </div>
+
+  <div class="field">
+    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+  </div>
+
+  <div class="field">
+    <button type="submit">Sign Up</button>
+  </div>
 </form>
+
+<p style="text-align: center;">
+  <a href="/users/auth/google">Google SignIn/Sign Up</a>
+</p>

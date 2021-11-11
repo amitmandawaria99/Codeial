@@ -1,18 +1,54 @@
-<link rel="stylesheet" href="/css/user_profile.css">
-<h1>
-  codeial / <%= title %>
-</h1>
-<p>
-  <%= profile_user.name %>
-</p>
-<p>
-  <%= profile_user.email %>
-</p>
+<link rel="stylesheet" type="text/css" href="<%= assetPath('/css/user_profile.css') %>">
+
 <% if(user.id==profile_user.id){ %>
   <!-- user matches then show form to update -->
-  <form action="/users/update/<%= profile_user.id %>" method="POST">
-    <input type="text" name="name" placeholder="Your Name" value="<%=profile_user.name%>" required>
-    <input type="email" name="email" placeholder="Your Email" value="<%=profile_user.email%>" required>
-    <input type="submit" value="Update">
+  <form action=" /users/update/<%=profile_user.id %>" enctype="multipart/form-data" method="POST">
+
+    <div class="settings">
+      <div class="img-container">
+        <img src="<%= locals.user.avatar %>" alt="user-dp" />
+      </div>
+
+      <div style="display: flex;flex-direction: row;">
+        <div id="upload">
+          <i class="fas fa-cloud-upload-alt"></i>&nbsp;UPLOAD
+        </div>
+        <input type="file" name='avatar' placeholder="Profile Picture" />
+      </div>
+
+      <div class="field">
+        <div class="field-label">Email</div>
+        <input type="email" name="email" placeholder="Your Email" value="<%=profile_user.email%>" required>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Name</div>
+        <input type="text" name="name" placeholder="Your Name" value="<%=profile_user.name%>" required>
+      </div>
+
+      <div class="field">
+        <div class="field-label">New password</div>
+
+        <input type="password" name='password' />
+      </div>
+
+
+      <div class="field">
+        <div class="field-label">Confirm password</div>
+
+        <input type="password" name='confirm_password' />
+      </div>
+
+      <div class="btn-grp"></div>
+      <input type="submit" class="button save-btn" value="Update">
+    </div>
   </form>
-  <%} %>
+  <%}else{ %>
+    <!-- else show only the profile info -->
+    <p>
+      <%= profile_user.name %>
+    </p>
+    <p>
+      <%= profile_user.email %>
+    </p>
+    <%} %>

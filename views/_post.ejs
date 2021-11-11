@@ -1,33 +1,61 @@
-<p>
-  <li>
-    <% if(locals.user && locals.user.id==post.user.id){ %>
-      <small>
-        <a href="/posts/destroy/<%=post._id%>">X </a>
-      </small>
-      <% } %>
-        <%= post.content %>
-  </li>
-  <li>
-    <%= post.user.name%>
-  </li>
-</p>
-<div class="post-comments">
-  <% if(locals.user){ %>
-    <form action="/comments/create" method="POST">
-      <input type="text" name="content" placeholder="Type Here to add comment..." required>
-      <input type="hidden" name="post" value="<%= post._id%>">
-      <input type="submit" value="Add Coment">
-    </form>
-    <% } %>
-
-      <div id="post-comments-list">
-        <ul id="post-comments-<%= post._id %>">
-          <% for(comment of post.comments){ %>
-            <li>
-              <%- include('_comment') -%>
-            </li>
-            <% } %>
-        </ul>
-
+<div id="post-<%= post.id %>" class="post-wrapper">
+  <div class="post-header">
+    <div class="post-avatar">
+      <a href="">
+        <img src="https://image.flaticon.com/icons/svg/2154/2154651.svg" alt="user-pic">
+      </a>
+      <div>
+        <span class="post-author">
+          <%= post.user.name %>
+        </span>
+        <span class="post-time">a minute ago</span>
       </div>
+      <% if(locals.user && locals.user.id==post.user.id){ %>
+        <button class="delete-btn no-btn">
+          <a class="delete-post-btn" href="/posts/destroy/<%= post._id %>"><i class="fas fa-times"></i></a>
+        </button>
+        <% } %>
+    </div>
+
+    <div class="post-content">
+      <%= post.content %>
+    </div>
+
+    <div class="post-actions">
+      <button class="post-like no-btn">
+        <% if(false){ %>
+          <img src="https://image.flaticon.com/icons/svg/1076/1076984.svg" alt="likes-icon" />
+          <% }else{ %>
+            <img src="https://image.flaticon.com/icons/svg/1077/1077035.svg" alt="likes-icon" />
+            <% } %>
+
+              <span>
+                <%= post.likes.length %>
+              </span>
+      </button>
+
+      <div class="post-comment-icon">
+        <img src="https://image.flaticon.com/icons/svg/1380/1380338.svg" alt="comments-icon">
+        <span>
+          <%= post.comments.length %>
+        </span>
+      </div>
+    </div>
+
+    <% if(locals.user){ %>
+      <div class="post-comment-box">
+        <form id="post-<%= post.id %>-comments-form" action="/comments/create" method="POST">
+          <input type="text" name="content" placeholder="Type Here to add comment..." required>
+          <input type="hidden" name="post" value="<%= post._id %>">
+          <input type="submit" value="Add Comment">
+        </form>
+      </div>
+      <%}%>
+
+        <div id="post-comments-<%= post.id %>" class="post-comments-list">
+          <% for(comment of post.comments){ %>
+            <%- include('_comment') -%>
+              <% } %>
+        </div>
+  </div>
 </div>

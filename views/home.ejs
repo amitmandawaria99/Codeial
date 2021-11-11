@@ -1,31 +1,81 @@
-<link rel="stylesheet" href="/css/home.css">
-<div id="home-container">
-  <section id="feed-posts">
-    <h4>Posts</h4>
-    <form action="/posts/create" id="new-post-form" method="POST">
-      <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
-      <input type="submit" value="Post">
-    </form>
+<!-- toggle like is an class which handles ajax request which is used to call that route for changing like count on post/comment -->
+<link rel="stylesheet" type="text/css" href="<%= assetPath('/css/home.css') %>">
+<link rel="stylesheet" type="text/css" href="<%= assetPath('/css/chat_box.css') %>">
+<div class="home">
+  <div class="feed">
+    <% if(locals.user){ %>
+      <div class="create-post">
+        <form action="/posts/create" id="post-form" method="POST">
+          <textarea class="add-post" name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
+          <input id="add-post-btn" type="submit" value="Post">
+        </form>
+        <% } %>
+      </div>
 
-    <div id="posts-list-container">
-      <ul>
+      <div id="posts-list-container" class="posts-list">
         <% for(post of posts){ %>
 
           <%- include('_post') -%>
 
             <% }%>
-      </ul>
-    </div>
-  </section>
+      </div>
+  </div>
 
-  <section id="user-friends">
-    <h4>Friends</h4>
-    <% for(u of all_users){ %>
-      <p>
-        <a href="/users/profile/<%= u.id %>">
-          <%= u.name %>
-        </a>
-      </p>
-      <% } %>
-  </section>
+  <% if(locals.user){ %>
+    <div class="friends-list">
+      <div class="header">Friends</div>
+
+      <% if(locals.user.friendships.length==0){ %>
+        <div className="no-friends">No friends found!</div>
+        <% }else{ %>
+          <% for(friends of locals.user.friends){ %>
+            <div>
+              <a class="friends-item" href="/user/">
+                <div class="friends-img">
+                  <img src="https://image.flaticon.com/icons/svg/2154/2154651.svg" alt="user-pic">
+                </div>
+                <div class="friends-name">
+                  <%= friends.to_user.name %>
+                </div>
+              </a>
+            </div>
+            <% } %>
+              <% if(friends.to_user.id==locals.user.id){ %>
+                <div>
+                  <a class="friends-item" href="/user/">
+                    <div class="friends-img">
+                      <img src="https://image.flaticon.com/icons/svg/2154/2154651.svg" alt="user-pic">
+                    </div>
+                    <div class="friends-name">
+                      <%= friends.from_user.name %>
+                    </div>
+                  </a>
+                </div>
+                <% } %>
+                  <% } %>
+                    <% } %>
+
+    </div>
+    <%- include('_chat_box') -%>
 </div>
+
+<!-- importing this script for creating the comments -->
+<!-- Don't use path as ../assets/ -->
+<script src="<%= assetPath('/js/home_post_comments.js') %>"></script>
+<script src="<%= assetPath('/js/home_posts.js') %>"></script>
+
+<!-- CHANGE :: import the script file for toggle likes,also run it over for the already present posts and comments on the page -->
+<script src="<%= assetPath('/js/toggle_likes.js') %>"></script>
+<script>
+  $('.toggle-like-button').each(function () {
+    let self = this;
+    let toggleLike = new ToggleLike(self);
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+<script src="<%= assetPath('/js/chat_engine.js') %>"></script>
+<% if(locals.user){ %>
+  <script>
+    new ChatEngine('user-chat-box', '<%= locals.user.email %>')
+  </script>
+  <% } %>

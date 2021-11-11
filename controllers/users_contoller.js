@@ -1,20 +1,66 @@
 const User = require('../models/user');
+const Friendships = require("../models/friendship");
+const fs = require('fs');
+const path = require('path');
 //let's keep it same as before
-module.exports.profile = function (req, res) {
-  User.findById(req.params.id, function (err, user) {
-    res.render('user_profile', {
-      title: 'profile page',
-      profile_user: user
-    });
-  });
-}
+module.exports.profile = async function (req, res) {
+  try {
+    let user = await User.findById(req.params.id);
 
-module.exports.update = function (req, res) {
-  if (req.user.id == req.params.id) {
-    User.findByIdAndUpdate(req.params.id, req.body, function (err, user) {
-      return res.redirect('back');
+    console.log('USER=', user);
+    let friendship1, friendship2, removeFriend = false;
+    friendship1 = await Friendships.findOne({
+      from_user: req.user,
+      to_user: req.params.id,
     });
+
+    friendship2 = await Friendships.findOne({
+      from_user: req.params.id,
+      to_user: req.user,
+    });
+
+    console.log(friendship1, friendship2);
+    if (friendship1 || friendship2) {
+      removeFriend = true;
+    }
+
+    return res.render('user_profile', {
+      title: 'profile page',
+      profile_user: user,
+      removeFriend: removeFriend
+    });
+  } catch (err) {
+    console.log("Error", err);
+    return;
+  }
+};
+
+module.exports.update = async function (req, res) {
+  if (req.user.id == req.params.id) {
+    try {
+      let user = await User.findById(req.params.id);
+      User.uploadedAvatar(req, res, function (err) {
+        if (err) { console.log('*******Multer Error:', err); }
+
+        user.name = req.body.name;
+        user.email = req.body.email;
+
+        if (req.file) {
+          if (user.avatar) {
+            fs.unlinkSync(path.join(__dirname, '..', user.avatar));
+          }
+          //this is saving the path of the uploaded file into the avatar field in the user
+          user.avatar = User.avatarPath + '/' + req.file.filename;
+        }
+        user.save();
+        return res.redirect('back');
+      });
+    } catch (err) {
+      req.flash('error', err);
+      return res.redirect('back');
+    }
   } else {
+    req.flash('error', err);
     return res.status(401).send('Unauthorized');
   }
 }
@@ -66,5 +112,6 @@ module.exports.createSession = function (req, res) {
 module.exports.destroySession = function (req, res) {
   req.logout();
   req.flash('success', 'You have logged out!');
+  //for passing flash msg from req to res use middleware(can use context but not clean code)
   return res.redirect('/');
 }

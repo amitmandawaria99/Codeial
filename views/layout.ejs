@@ -4,12 +4,14 @@
   <title>
     <%= title %>
   </title>
-  <link rel="stylesheet" href="/css/layout.css">
-  <link rel="stylesheet" href="/css/header.css">
-  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="<%= assetPath('/css/layout.css') %>">
+  <link rel="stylesheet" href="<%= assetPath('/css/header.css') %>">
+  <link rel="stylesheet" href="<%= assetPath('/css/footer.css') %>">
   <!-- cdn links for flash -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
   <!-- automatically put here -->
   <%- style %>
 </head>
@@ -27,7 +29,7 @@
       <%- script %>
         <!-- script for showing flash -->
         <script>
-         <% if (flash.success && flash.success.length > 0) {%>
+         <% if (flash.success && flash.success.length > 0) { %>
             new Noty({
               theme: 'relax',
               text: '<%= flash.success%>',
@@ -47,6 +49,9 @@
             }).show();
           <% } %>
         </script>
+
+        <script src="https://kit.fontawesome.com/26ae0d85b1.js" crossorigin="anonymous"></script>
+
 </body>
 
 </html>
