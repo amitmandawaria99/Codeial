@@ -2,7 +2,7 @@
   <div class="post-header">
     <div class="post-avatar">
       <a href="">
-        <img src="https://image.flaticon.com/icons/svg/2154/2154651.svg" alt="user-pic">
+        <i class="fas fa-user"></i>
       </a>
       <div>
         <span class="post-author">
@@ -24,9 +24,10 @@
     <div class="post-actions">
       <button class="post-like no-btn">
         <% if(false){ %>
-          <img src="https://image.flaticon.com/icons/svg/1076/1076984.svg" alt="likes-icon" />
+          <!-- <img src="https://image.flaticon.com/icons/svg/1076/1076984.svg" alt="likes-icon" /> -->
           <% }else{ %>
-            <img src="https://image.flaticon.com/icons/svg/1077/1077035.svg" alt="likes-icon" />
+            <i class="fas fa-heart"></i>
+            <!-- <img src="https://image.flaticon.com/icons/svg/1077/1077035.svg" alt="likes-icon" /> -->
             <% } %>
 
               <span>
@@ -35,7 +36,8 @@
       </button>
 
       <div class="post-comment-icon">
-        <img src="https://image.flaticon.com/icons/svg/1380/1380338.svg" alt="comments-icon">
+        <!-- <img src="https://image.flaticon.com/icons/svg/1380/1380338.svg" alt="comments-icon"> -->
+        <i class="fas fa-comment"></i>
         <span>
           <%= post.comments.length %>
         </span>

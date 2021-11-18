@@ -1,5 +1,4 @@
 <link rel="stylesheet" type="text/css" href="<%= assetPath('/css/auth.css') %>">
-<h1>Sign up</h1>
 <form action="/users/create" method="POST" class="login-form">
 
   <span class="login-signup-header">Sign Up</span>
@@ -23,8 +22,12 @@
   <div class="field">
     <button type="submit">Sign Up</button>
   </div>
+  <div id="google-btn-container">
+    <a class="google-btn" href="/users/auth/google">
+      <div class="google-icon-wrapper">
+        <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
+      </div>
+      <p class="btn-text"><b>Sign in with google</b></p>
+    </a>
+  </div>
 </form>
-
-<p style="text-align: center;">
-  <a href="/users/auth/google">Google SignIn/Sign Up</a>
-</p>

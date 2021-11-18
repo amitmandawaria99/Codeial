@@ -119,7 +119,7 @@ app.use(passport.session());
 //setting user to locals of response
 app.use(passport.setAuthenticatedUser);
 
-//after session is used(it uses session cookie to store flash message) set it up to be used
+//after session is used(it uses session cookie to store flash message) set it up to be used 
 app.use(flash());
 app.use(customMware.setFlash);
 

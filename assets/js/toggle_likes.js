@@ -28,7 +28,7 @@ class ToggleLike {
 
           console.log('reached in ajax');
           $(self).attr('data-likes', likesCount);
-          $(self).html(`${likesCount}`);
+          $(self).html(`${likesCount}<i class="fas fa-heart"></i>`);
 
         })
         .fail(function (errData) {

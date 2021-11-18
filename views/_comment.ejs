@@ -12,11 +12,21 @@
         <!-- <% if(false){ %>
           <i class="fas fa-thumbs-up"></i>
           <% }else{ %> -->
-        <img src="https://image.flaticon.com/icons/svg/1077/1077035.svg" alt="likes-icon" />
+        <!-- <img src="https://image.flaticon.com/icons/svg/1077/1077035.svg" alt="likes-icon" /> -->
         <!-- <% } %> -->
-        <span class="post-comment-likes">
+
+        <% if(locals.user){ %>
+          <a class="toggle-like-button" data-likes="<%= comment.likes.length %>"
+            href="/likes/toggle/?id=<%=comment._id%>&type=Comment">
+            <%= comment.likes.length %><i class="fas fa-heart"></i>
+          </a>
+          <% }else{ %>
+            <%= comment.likes.length %>Likes
+              <% } %>
+
+                <!-- <span class="post-comment-likes">
           <%= comment.likes.length %>Likes
-        </span>
+        </span> -->
       </button>
     </div>
 
@@ -28,11 +38,3 @@
   </div>
 
 </div>
-<% if(locals.user){ %>
-  <a class="toggle-like-button" data-likes="<%= comment.likes.length %>"
-    href="/likes/toggle/?id=<%=comment._id%>&type=Comment">
-    <%= comment.likes.length %>Likes
-  </a>
-  <% }else{ %>
-    <%= comment.likes.length %>Likes
-      <% } %>
