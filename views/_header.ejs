@@ -1,38 +1,47 @@
-<header id="layout-header">
-  <nav>
-    <div class="mini-logo">
-      <p>
-        <a href='/'>
-          <img class="img img-rounded" src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png" alt="logo" />
+<nav class="nav">
+  <div class="left-div">
+    <a href='/'>
+      <img class="img img-rounded" src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png" alt="logo" />
+    </a>
+  </div>
+
+  <div class="search-container">
+    <!-- <img class="search-icon" src="https://image.flaticon.com/icons/svg/483/483356.svg" alt="search-icon" /> -->
+    <input placeholder="Search" />
+  </div>
+  <div class="right-nav">
+    <% if(locals.user){ %>
+      <div class="user">
+        <a href="/users/profile/<%= user.id %>">
+          <!-- <img class="rounded-circle" src="<%= locals.user.avatar %>" alt="user-dp" id="user-dp" /> -->
+
+          <% if(locals.user.avatar==undefined){ %>
+            <img class="rounded-circle" id="user-dp" src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+              alt="logo">
+            <% }else{ %>
+              <img class="rounded-circle" id="user-dp" src="<%= locals.user.avatar %>" alt="logo">
+              <% } %>
         </a>
-      </p>
-    </div>
-    <div class="search-container">
-      <!-- <img class="search-icon" src="https://image.flaticon.com/icons/svg/483/483356.svg" alt="search-icon" /> -->
-      <input placeholder="Search" />
-    </div>
-    <div class="auth-links">
-      <ul>
-        <% if(locals.user){ %>
-          <li>
-            <a href="/users/profile/<%= user.id %>">
-              <img class="rounded-circle" src="<%= locals.user.avatar %>" alt="user-dp" id="user-dp" />
-            </a>
-          </li>
-          <li>
-            <a href="/users/profile/<%= user.id %> ">
-              <%= user.name %>
-            </a>
-          </li>
-          <li><a href="/users/sign-out">Sign Out</a></li>
+      </div>
+      <% } %>
 
-          <% }else{ %>
-            <li><a href="/users/sign-in">
-                Sign In</a></li>
+        <div class="nav-links">
+          <ul>
+            <% if(locals.user){ %>
+              <li>
+                <a href="/users/profile/<%= user.id %> ">
+                  <%= user.name %>
+                </a>
+              </li>
+              <li><a href="/users/sign-out">Sign Out</a></li>
 
-            <li><a href="/users/sign-up">Sign Up</a></li>
-            <% } %>
-      </ul>
-    </div>
-  </nav>
-</header>
+              <% }else{ %>
+                <li><a href="/users/sign-in">
+                    Sign In</a></li>
+
+                <li><a href="/users/sign-up">Sign Up</a></li>
+                <% } %>
+          </ul>
+        </div>
+  </div>
+</nav>

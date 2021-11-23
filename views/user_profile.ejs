@@ -6,7 +6,11 @@
 
     <div class="settings">
       <div class="img-container">
-        <img src="<%= locals.user.avatar %>" alt="user-dp" />
+        <% if(locals.user.avatar==undefined){ %>
+          <i class="fas fa-user"></i>
+          <% }else{ %>
+            <img src="<%= locals.user.avatar %>" alt="user-dp" />
+            <% } %>
       </div>
 
       <div style="display: flex;flex-direction: row;">

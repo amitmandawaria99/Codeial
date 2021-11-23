@@ -2,7 +2,14 @@
   <div class="post-header">
     <div class="post-avatar">
       <a href="">
-        <i class="fas fa-user"></i>
+        <% if(locals.user==undefined){ %>
+          <i class="fas fa-user"></i>
+          <% }else{ %>
+            <img src="<%= locals.user.avatar %>" alt="logo" style="
+            height: 42px;
+            width: 39px;
+        " />
+            <% } %>
       </a>
       <div>
         <span class="post-author">
