@@ -6,7 +6,6 @@ const Comment = require('../models/comment');
 
 module.exports.toggleLike = async function (req, res) {
   try {
-
     //likes/toggle/?id=abcdef&type=Post
     let likeable;   //which like object(post/comment)
     let deleted = false;   //to change count of likes on frontend
@@ -44,11 +43,11 @@ module.exports.toggleLike = async function (req, res) {
       likeable.save();
 
     }
-
     return res.json(200, {
       message: 'Request successful!',
       data: {
-        deleted: deleted
+        deleted: deleted,
+        message: "Request Successful"
       }
     });
   } catch (err) {
