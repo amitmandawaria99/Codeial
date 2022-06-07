@@ -34,7 +34,7 @@
           href="/likes/toggle/?id=<%=post._id%>&type=Post">
           <% let flag=false %>
             <% for(let like of post.likes){ %>
-              <% if(like.user==locals.user.id){ %>
+              <% if(like.user==locals.user){ %>
                 <% flag=true %>
                   <% } %>
                     <% } %>

@@ -50,7 +50,7 @@ const rfs = require('rotating-file-stream');
 
 const prod_assets = require("./config/view-helpers")(app);
 
-//setting config for using sass(it has to be written before the server starts so that it can compile all the sass files into css)
+//setting config for using sass(it has to be written before the server starts so that it can compile all the sass files into css)  
 if (env.name == 'development') {
   app.use(sassMiddleware({
     src: path.join(__dirname, env.asset_path, 'scss'),
