@@ -1,11 +1,11 @@
-<div id="post-<%= post.id %>" class="post-wrapper">
+<div id="post-<%= i.id %>" class="post-wrapper">
   <div class="post-header">
     <div class="post-avatar">
       <a href="">
-        <% if(locals.user==undefined){ %>
+        <% if(i.user.avatar == undefined){ %>
           <i class="fas fa-user"></i>
           <% }else{ %>
-            <img src="<%= locals.user.avatar %>" alt="logo" style="
+            <img src="<%= i.user.avatar %>" alt="logo" style="
             height: 42px;
             width: 39px;
         " />
@@ -13,34 +13,47 @@
       </a>
       <div>
         <span class="post-author">
-          <%= post.user.name %>
+          <a href="/users/profile?id=<%= i.user._id %> ">
+          <%= i.user.name %>
+          </a>
         </span>
         <span class="post-time">a minute ago</span>
       </div>
-      <% if(locals.user && locals.user.id==post.user.id){ %>
+      <% if(locals.user && locals.user.id == i.user.id){ %>
         <button class="delete-btn no-btn">
-          <a class="delete-post-btn" href="/posts/destroy/<%= post._id %>"><i class="fas fa-times"></i></a>
+          <a class="delete-post-btn" href="/posts/destroy/<%= i._id %>"><i class="fas fa-times"></i></a>
         </button>
         <% } %>
     </div>
 
     <div class="post-content">
-      <%= post.content %>
+      <%= i.content %>
     </div>
 
     <div class="post-actions">
       <button class="post-like no-btn">
-        <a data-likes="<%= post.likes.length %>" class="toggle-like-button"
-          href="/likes/toggle/?id=<%=post._id%>&type=Post">
+        <a data-likes="<%= i.likes.length %>" class="toggle-like-button"
+          href="/likes/toggle/?id=<%=i._id%>&type=Post">
           <% let flag=false %>
-            <% for(let like of post.likes){ %>
+            <% for(let like of i.likes){ %>
               <% if(like.user==locals.user){ %>
                 <% flag=true %>
                   <% } %>
                     <% } %>
 
+                    <% if(flag) {%>
+                      <img
+                        src="https://image.flaticon.com/icons/svg/1076/1076984.svg"
+                        alt="likes-icon"
+                      />
+                    <% } else{%>
+                       <img
+                        src="https://image.flaticon.com/icons/svg/1077/1077035.svg"
+                        alt="likes-icon"
+                      />
+                    <% } %>
                       <span>
-                        <%= post.likes.length %>
+                        <%= i.likes.length %>
                       </span>
                       <i class="fas fa-heart"></i>
         </a>
@@ -50,23 +63,23 @@
         <!-- <img src="https://image.flaticon.com/icons/svg/1380/1380338.svg" alt="comments-icon"> -->
         <i class="fas fa-comment"></i>
         <span>
-          <%= post.comments.length %>
+          <%= i.comments.length %>
         </span>
       </div>
     </div>
 
     <% if(locals.user){ %>
       <div class="post-comment-box">
-        <form id="post-<%= post.id %>-comments-form" action="/comments/create" method="POST">
+        <form id="post-<%= i.id %>-comments-form" action="/comments/create" method="POST">
           <input type="text" name="content" placeholder="Type Here to add comment..." required>
-          <input type="hidden" name="post" value="<%= post._id %>">
+          <input type="hidden" name="post" value="<%= i._id %>">
           <input type="submit" value="Add Comment">
         </form>
       </div>
       <%}%>
 
-        <div id="post-comments-<%= post.id %>" class="post-comments-list">
-          <% for(comment of post.comments){ %>
+        <div id="post-comments-<%= i.id %>" class="post-comments-list">
+          <% for(comment of i.comments){ %>
             <%- include('_comment') -%>
               <% } %>
         </div>

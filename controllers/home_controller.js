@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const User = require('../models/user');
+const { post } = require('../routes');
 
 module.exports.home = async function (req, res) {
   try {
@@ -10,18 +11,39 @@ module.exports.home = async function (req, res) {
       .populate({
         path: 'comments',
         populate: {
-          path: 'user'
+          path: 'user',
+          model: "User"
         },
         populate: {
           path: 'likes'
-        }
-      }).populate('comments')
+        },
+      })
       .populate('likes');
     let users = await User.find({});
+
+    let user;
+    if (req.user) {
+      console.log("reachedin inside of if");
+      user = await User.findById(req.user._id)
+        .populate({
+          path: "friends",
+          populate: {
+            path: "from_user",
+          },
+        })
+        .populate({
+          path: "friends",
+          populate: {
+            path: "to_user",
+          },
+        });
+    }
+    console.log("friends",user.friends);
     return res.render('home', {
       title: 'Codeial | Home',
       posts: posts,
-      all_users: users
+      all_users: users,
+      user:user
     });
   } catch (err) {
     console.log('Error', err);

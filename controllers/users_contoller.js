@@ -1,14 +1,15 @@
 const User = require('../models/user');
-const Friendships = require("../models/friendship");
+const Friendships = require("../models/friendships");
 const fs = require('fs');
 const path = require('path');
 //let's keep it same as before
 module.exports.profile = async function (req, res) {
   try {
-    let user = await User.findById(req.params.id);
+    console.log("reached in profile");  
+    let user = await User.findOne({ _id: req.query.id });
+    console.log("current user",req.user);
+    let friendship1,friendship2
 
-    console.log('USER=', user);
-    let friendship1, friendship2, removeFriend = false;
     friendship1 = await Friendships.findOne({
       from_user: req.user,
       to_user: req.params.id,
@@ -19,18 +20,17 @@ module.exports.profile = async function (req, res) {
       to_user: req.user,
     });
 
-    console.log(friendship1, friendship2);
-    if (friendship1 || friendship2) {
-      removeFriend = true;
-    }
-
-    return res.render('user_profile', {
-      title: 'profile page',
+    console.log("friendship1",friendship1);
+    console.log("friendship2",friendship2);
+    let populated_user = await User.findById(req.user).populate('friends');
+    console.log("populated users",populated_user);
+    return res.render("user_profile", {
+      title: "Codeial | Profile",
       profile_user: user,
-      removeFriend: removeFriend
+      populated_user
     });
-  } catch (err) {
-    console.log("Error", err);
+  } catch (error) {
+    console.log("Error", error);
     return;
   }
 };
@@ -75,8 +75,11 @@ module.exports.signUp = function (req, res) {
 };
 //render sign in page
 module.exports.signIn = function (req, res) {
+  console.log("reached in signin");
   if (req.isAuthenticated()) {
-    return res.redirect('/users/profile');
+    console.log("isauthenticated");
+    console.log("req",req.user._id);
+    return res.redirect('/users/profile/{=req.user._id}');
   }
   res.render('user_sign_in', {
     title: "Codeial | Sign In"

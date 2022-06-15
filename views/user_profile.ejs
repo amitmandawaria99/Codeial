@@ -49,10 +49,54 @@
   </form>
   <%}else{ %>
     <!-- else show only the profile info -->
-    <p>
+    <!-- <p>
       <%= profile_user.name %>
     </p>
     <p>
       <%= profile_user.email %>
-    </p>
+    </p> -->
+    <div class="settings">
+      <div class="img-container">
+        <% if(locals.profile_user.avatar == undefined){ %>
+          <img class="rounded-circle" id="user-dp" src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+            alt="logo">
+          <% }else{ %>
+            <img class="rounded-circle" id="user-dp" src="<%= locals.profile_user.avatar %>" alt="logo">
+            <% } %>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Email</div>
+        <div class="field-value"><%= locals.profile_user.email %></div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Name</div>
+        <div class="field-value"><%= locals.profile_user.name %></div>
+      </div>
+
+      <div class="btn-grp">
+        <% let isFriend = false %>
+        <% for(let friend of locals.populated_user.friends){ %>
+         
+          <% if(friend.to_user == profile_user.id || friend.from_user == profile_user.id){ %>
+            <% isFriend = true %>
+          <% } %>
+        <% } %>
+        <% if(isFriend){%>
+          <button class="btn save-btn">
+            <a style="color:white;" class="toggle-friend-btn" href="/friends/add-friend/?id=<%= profile_user.id %>">
+              Remove Friend
+            </a>
+          </button>
+        <% }else{%>
+          <button class="btn save-btn">
+            <a style="color:white;" class="toggle-friend-btn" href="/friends/add-friend/?id=<%= profile_user.id %>">
+              Add Friend
+            </a>
+          </button>
+        <% } %>
+      </div>
+
+    </div>
     <%} %>
