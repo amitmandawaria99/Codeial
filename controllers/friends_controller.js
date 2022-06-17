@@ -5,22 +5,34 @@ const Friendship = require("../models/friendships");
 
 module.exports.addFriend = async function(request , response){
     try{
-        let existingFriendship = await Friendship.findOne({
+        let existingFriendship1 = await Friendship.findOne({
             from_user : request.user._id,
             to_user : request.query.id,
         });
 
+        let existingFriendship2 = await Friendship.findOne({
+            from_user : request.query.id,
+            to_user : request.user._id,
+        });
 
         let toUser = await User.findById(request.query.id);
         let fromUser = await User.findById(request.user._id);
     
         let deleted = false;
-        if(existingFriendship){
-            await toUser.friends.pull(existingFriendship._id);
-            await fromUser.friends.pull(existingFriendship._id);
+        if(existingFriendship1){
+            await toUser.friends.pull(existingFriendship1._id);
+            await fromUser.friends.pull(existingFriendship1._id);
             await toUser.save();
             await fromUser.save();
-            await existingFriendship.remove();
+            await existingFriendship1.remove();
+            deleted = true;
+            removeFriend = true;
+        }else if(existingFriendship2){
+            await toUser.friends.pull(existingFriendship2._id);
+            await fromUser.friends.pull(existingFriendship2._id);
+            await toUser.save();
+            await fromUser.save();
+            await existingFriendship2.remove();
             deleted = true;
             removeFriend = true;
         }else{

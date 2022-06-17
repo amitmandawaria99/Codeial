@@ -20,7 +20,7 @@ const development = {
     port: 587,
     secure: false,
     auth: {
-      user: 'amitmandawaria99',
+      user: 'amitmandawaria99@gmail.com',
       pass: ''
     }
   },
