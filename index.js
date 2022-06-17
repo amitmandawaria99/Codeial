@@ -34,7 +34,7 @@ const customMware = require('./config/middleware');
 const chatServer = require("http").Server(app);
 //setting up configuation for setting sockets on the chat server
 const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
-chatServer.listen(1000, function (error) {
+chatServer.listen(5000, function (error) {
   if (error) {
     console.log('error in setting up chat Server');
   } else {
