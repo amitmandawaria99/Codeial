@@ -1,7 +1,7 @@
 <div id="post-<%= i.id %>" class="post-wrapper">
   <div class="post-header">
     <div class="post-avatar">
-      <a href="">
+      <a href="/users/profile?id=<%= i.user._id %>">
         <% if(i.user.avatar == undefined){ %>
           <i class="fas fa-user"></i>
           <% }else{ %>

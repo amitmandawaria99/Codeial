@@ -5,8 +5,19 @@
 
   <div class="post-comment-header">
     <span class="post-comment-author">
-      <%= comment.user.name %>
-    </span>
+      <a href="/users/profile?id=<%= comment.user._id %>">
+      <% if(comment.user.avatar == undefined){ %>
+        <i class="fas fa-user"></i>
+        <% }else{%>
+          <img
+          class="rounded-circle comment-avtar"
+          src="<%=comment.user.avatar%>"
+          alt="logo"
+        />
+        <% } %>
+      </a>
+      </span>
+       <span><%= comment.user.name %></span>
     <div class="post-actions">
       <button class="post-like no-btn">
         <!-- <% if(false){ %>
