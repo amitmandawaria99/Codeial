@@ -34,7 +34,7 @@ const customMware = require('./config/middleware');
 const chatServer = require("http").Server(app);
 //setting up configuation for setting sockets on the chat server
 const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
-chatServer.listen(5000, function (error) {
+chatServer.listen(1000, function (error) {
   if (error) {
     console.log('error in setting up chat Server');
   } else {
@@ -52,7 +52,8 @@ const prod_assets = require("./config/view-helpers")(app);
 
 //setting config for using sass(it has to be written before the server starts so that it can compile all the sass files into css)  
 if (env.name == 'development') {
-  app.use(sassMiddleware({
+  app.use(
+    sassMiddleware({
     src: path.join(__dirname, env.asset_path, 'scss'),
     dest: path.join(__dirname, env.asset_path, 'css'),
     debug: true,
@@ -64,7 +65,6 @@ if (env.name == 'development') {
 
 // setup the logger
 app.use(morgan(env.morgan.mode, env.morgan.options));
-
 
 //to read data from url(send in post method)
 //10)Setting middleware for decoding the post request
@@ -83,8 +83,8 @@ app.use(logger(env.morgan.mode, env.morgan.options));
 
 app.use(expressLayouts);
 //extract style and script from sub pages and place them in head
-app.set('layout extractStyles', true);
-app.set('layout extractScripts', true);
+app.set('layout extractStyles' ,true);
+app.set('layout extractScripts' ,true);
 
 
 //set up the view engine
@@ -92,14 +92,14 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 //using express session to encrypt user data and stores in the cookie (This cookie is then stored in database)
-app.use(session({
+app.use(
+  session({
   name: 'codeial',
-  //TODO change the secret before deployment in production
   secret: env.session_cookie_key,
   saveUninitialized: false,
   resave: false,
   cookie: {
-    maxAge: (1000 * 60 * 100)
+    maxAge: 1000 * 60 * 100
   },
   store: MongoStore.create(
     {
