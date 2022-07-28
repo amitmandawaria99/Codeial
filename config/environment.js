@@ -13,7 +13,7 @@ const development = {
   name: 'development',
   asset_path: './assets',
   session_cookie_key: 'blahsomething',
-  db: 'codeial_development',
+  db: 'mongodb+srv://amitmandawaria999:9649796384@cluster0.jpujq5o.mongodb.net/codeial?retryWrites=true&w=majority',
   smtp: {
     service: 'gmail',
     host: 'smtp.gmail.com',
