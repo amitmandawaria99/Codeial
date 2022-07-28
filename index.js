@@ -64,7 +64,7 @@ if (env.name == 'development') {
 
 
 // setup the logger
-app.use(morgan(env.morgan.mode, env.morgan.options));
+// app.use(morgan(env.morgan.mode, env.morgan.options));
 
 //to read data from url(send in post method)
 //10)Setting middleware for decoding the post request
@@ -79,7 +79,7 @@ app.use(express.static(path.join(__dirname, env.asset_path)));
 //make the uploads path available to the browser
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
-app.use(logger(env.morgan.mode, env.morgan.options));
+// app.use(logger(env.morgan.mode, env.morgan.options));
 
 app.use(expressLayouts);
 //extract style and script from sub pages and place them in head
