@@ -1,6 +1,9 @@
 {
   "name": "codeial",
   "version": "1.0.0",
+  "engines": {
+    "node": "16.13.1"
+  },
   "description": "My social Media website",
   "main": "index.js",
   "scripts": {
