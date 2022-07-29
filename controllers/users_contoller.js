@@ -36,8 +36,8 @@ module.exports.profile = async function (req, res) {
 };
 
 module.exports.update = async function (req, res) {
-  try {
-    if (req.user.id == req.params.id) {
+  if (req.user.id == req.params.id) {
+    try {
       let user = await User.findById(req.params.id);
       User.uploadedAvatar(req, res, function (err) {
         if (err) { console.log('*******Multer Error:', err); }
@@ -55,13 +55,13 @@ module.exports.update = async function (req, res) {
         user.save();
         return res.redirect('back');
       });
+    } catch (err) {
+      req.flash('error', err);
+      return res.redirect('back');
+    }
   } else {
     req.flash('error', err);
     return res.status(401).send('Unauthorized');
-  }
-  } catch (err) {
-    req.flash('error', err);
-    return res.redirect('back');
   }
 }
 //render sign up page

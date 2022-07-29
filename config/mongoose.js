@@ -1,14 +1,6 @@
 const mongoose = require('mongoose');
 const env = require('./environment');
-const dotenv = require('dotenv')
-dotenv.config()
-console.log(process.env.db);
-mongoose.connect(process.env.db,
-  { useUnifiedTopology: true, useNewUrlParser: true },
-  (err) => {
-    if (err) console.log('Error in Connecting DB')
-    else console.log('Database Connected Succesfully')
-  });
+mongoose.connect(`${env.db}`);
 
 const db = mongoose.connection;
 

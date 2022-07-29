@@ -14,16 +14,6 @@ const development = {
   asset_path: './assets',
   session_cookie_key: 'blahsomething',
   db: 'mongodb+srv://amitmandawaria999:9649796384@cluster0.jpujq5o.mongodb.net/codeial?retryWrites=true&w=majority',
-  smtp: {
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-      user: 'amitmandawaria99@gmail.com',
-      pass: ''
-    }
-  },
   google_client_id: "322137722164-f1ajsl7gk3cstv6omtiu582da8c0khaj.apps.googleusercontent.com",
   google_client_secret: "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",
   google_call_back_url: "http://localhost:8000/users/auth/google/callback",

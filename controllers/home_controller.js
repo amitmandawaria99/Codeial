@@ -4,7 +4,6 @@ const { post } = require('../routes');
 
 module.exports.home = async function (req, res) {
   try {
-    console.log("reached in home controller");
     //CHANGE :: populate the likes of each post and comment
     let posts = await Post.find({})
       .sort('-createdAt')
