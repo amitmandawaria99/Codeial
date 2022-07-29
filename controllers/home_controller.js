@@ -21,6 +21,7 @@ module.exports.home = async function (req, res) {
         },
       })
       .populate('likes');
+      // console.log(posts);
     // console.log(posts[0].comments);
     let users = await User.find({});
 

@@ -44,7 +44,7 @@
       </button>
     </div>
 
-    <% if(locals.user && locals.user.id==comment.user){ %>
+    <% if(locals.user && locals.user.id==comment.user._id){ %>
       <button class="delete-btn no-btn">
         <a class="delete-comment-btn" href="/comments/destroy/<%= comment._id %>"><i class="fas fa-times"></i></a>
       </button>
