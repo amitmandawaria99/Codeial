@@ -5,7 +5,7 @@ const logger = require('morgan');
 const app = express();
 //Calling view-helper function for asset path
 require('./config/view-helpers')(app);
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 //6) Installing and acquiring express-ejs-layouts
 const expressLayouts = require('express-ejs-layouts');
