@@ -103,7 +103,7 @@ app.use(
   },
   store: MongoStore.create(
     {
-      mongoUrl: '/mongodb://localhost/codeial_development',
+      mongoUrl: 'mongodb+srv://amitmandawaria999:9649796384@cluster0.jpujq5o.mongodb.net/codeial?retryWrites=true&w=majority',
       autoRemove: 'disabled'
     },
     function (err) {
