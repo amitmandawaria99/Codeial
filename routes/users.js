@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/users_contoller');
 const passport = require('passport');
+const uploadImage = require('../config/multer');
+const multer = require('multer')
+const upload = multer()
 
 router.get('/profile', passport.checkAuthentication, userController.profile);
-router.post('/update/:id', passport.checkAuthentication, userController.update);
+router.post('/update/:id', [passport.checkAuthentication, uploadImage.single('avatar')], userController.update);
 
 router.get('/sign-up', userController.signUp);
 router.get('/sign-in', userController.signIn);

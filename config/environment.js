@@ -21,7 +21,10 @@ const development = {
   morgan: {
     mode: 'dev',
     options: { stream: accessLogStream }
-  }
+  },
+  CLOUDINARY_NAME: 'dpwvsubmm',
+  CLOUDINARY_API_KEY:'472134579935991',
+  CLOUDINARY_API_SECRET:'V0tliwFAi-LTbmxdantB57fC_zc'
 }
 
 

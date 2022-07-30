@@ -3,6 +3,7 @@ const express = require('express');
 const env = require('./config/environment');
 const logger = require('morgan');
 const app = express();
+const cloudinary = require("cloudinary");
 //Calling view-helper function for asset path
 require('./config/view-helpers')(app);
 const port = process.env.PORT || 8000;
@@ -12,9 +13,15 @@ const expressLayouts = require('express-ejs-layouts');
 
 //9)Setting configuration for mongoose in config folder and requiring here (Connecting to database)
 const db = require('./config/mongoose');
-
+cloudinary.config({
+  cloud_name: env.CLOUDINARY_NAME,
+  api_key: env.CLOUDINARY_API_KEY,
+  api_secret: env.CLOUDINARY_API_SECRET,
+});
 //11)Using cookies
 const cookieParser = require('cookie-parser');
+const DatauriParser=require("datauri/parser");
+const parser = new DatauriParser();
 //used for session cookie
 const session = require('express-session');
 const passport = require('passport');
@@ -68,10 +75,13 @@ if (env.name == 'development') {
 
 //to read data from url(send in post method)
 //10)Setting middleware for decoding the post request
+app.use(express.json())
 app.use(express.urlencoded());
 
 //After requiring cookies we have to use this middleware for using cookies
 app.use(cookieParser());
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //7)Linking static files
 app.use(express.static(path.join(__dirname, env.asset_path)));

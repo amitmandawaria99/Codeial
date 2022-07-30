@@ -2,6 +2,10 @@ const User = require('../models/user');
 const Friendships = require("../models/friendships");
 const fs = require('fs');
 const path = require('path');
+const cloudinary = require("cloudinary");
+const { extname } = require('path');
+const DatauriParser=require("datauri/parser");
+const parser = new DatauriParser();
 //let's keep it same as before
 module.exports.profile = async function (req, res) {
   try {
@@ -31,31 +35,39 @@ module.exports.profile = async function (req, res) {
     });
   } catch (error) {
     console.log("Error", error);
-    return;
+    return res.redirect('back');
   }
 };
 
 module.exports.update = async function (req, res) {
   if (req.user.id == req.params.id) {
     try {
+      console.log("reached in update profile")
       let user = await User.findById(req.params.id);
-      User.uploadedAvatar(req, res, function (err) {
-        if (err) { console.log('*******Multer Error:', err); }
+      // User.uploadedAvatar(req, res,async function (err) {
+      //   if (err) { console.log('*******Multer Error:', err); }
+      user.name = req.body.name;
+      user.email = req.body.email;
+      console.log(req.body);
+      if (req.file) {
+        if(user.avatar_public_id != null)
+          await cloudinary.v2.uploader.destroy(user.avatar_public_id);
+        const extName = path.extname(req.file.originalname).toString();
+        const file64 = parser.format(extName, req.file.buffer);
+        const myCloud = await cloudinary.v2.uploader.upload(file64.content, {
+            folder: "avatars"
+          });
+          user.avatar = myCloud.secure_url;
+          user.avatar_public_id = myCloud.public_id;
+        //this is saving the path of the uploaded file into the avatar field in the user
+        // user.avatar = User.avatarPath + '/' + req.file.filename;
+      }
 
-        user.name = req.body.name;
-        user.email = req.body.email;
-
-        if (req.file) {
-          if (user.avatar) {
-            fs.unlinkSync(path.join(__dirname, '..', user.avatar));
-          }
-          //this is saving the path of the uploaded file into the avatar field in the user
-          user.avatar = User.avatarPath + '/' + req.file.filename;
-        }
-        user.save();
-        return res.redirect('back');
-      });
+      await user.save();
+      return res.redirect('back');
+    // });
     } catch (err) {
+      console.log("ERROR",err);
       req.flash('error', err);
       return res.redirect('back');
     }
@@ -66,15 +78,21 @@ module.exports.update = async function (req, res) {
 }
 //render sign up page
 module.exports.signUp = function (req, res) {
+  try {
   if (req.isAuthenticated()) {
     return res.redirect('/users/profile');
   }
   res.render('user_sign_up', {
     title: "Codeial | Sign Up"
   })
+} catch (error) {
+  console.log("Error", error);
+  return res.redirect('back');
+}
 };
 //render sign in page
 module.exports.signIn = function (req, res) {
+  try {
   console.log("reached in signin");
   if (req.isAuthenticated()) {
     console.log("isauthenticated");
@@ -84,10 +102,15 @@ module.exports.signIn = function (req, res) {
   res.render('user_sign_in', {
     title: "Codeial | Sign In"
   })
+} catch (error) {
+  console.log("Error", error);
+  return res.redirect('back');
+}
 };
 
 //get the sign up data
 module.exports.create = function (req, res) {
+  try {
   if (req.body.password != req.body.confirm_password) {
     return res.redirect('back');
   }
@@ -104,17 +127,31 @@ module.exports.create = function (req, res) {
       return res.redirect('back');
     }
   })
+  } catch (error) {
+    console.log("Error", error);
+    return res.redirect('back');
+  }
 }
 
 //sign in and create a session for user
 module.exports.createSession = function (req, res) {
+  try {
   req.flash('success', 'Logged in successfully');
   return res.redirect('/');
+  } catch (error) {
+    console.log("Error", error);
+    return res.redirect('back');
+  }
 }
 
 module.exports.destroySession = function (req, res) {
+  try {
   req.logout();
   req.flash('success', 'You have logged out!');
   //for passing flash msg from req to res use middleware(can use context but not clean code)
   return res.redirect('/');
+  } catch (error) {
+    console.log("Error", error);
+    return res.redirect('back');
+  }
 }

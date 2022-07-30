@@ -6,13 +6,19 @@ const { access } = require('fs');
 const { localsName } = require('ejs');
 
 module.exports.auth = function (req, res) {
-  console.log('reached hereeee');
+  try {
+  // console.log('reached hereeee');
   return res.render('verify_email', {
     title: "Codeial | Verify",
   });
+  } catch (error) {
+    console.log("Error", error);
+    return res.redirect('back');
+  }
 }
 
 module.exports.verifyEmail = async function (req, res) {
+  try {
   let user = await User.findOne({ email: req.body.email });
 
   console.log(user, req.body);
@@ -33,9 +39,14 @@ module.exports.verifyEmail = async function (req, res) {
     req.flash("error", "Account does not exist with this email");
     return res.redirect('back');
   }
+  } catch (error) {
+    console.log("Error", error);
+    return res.redirect('back');
+  }
 }
 
 module.exports.resetPassword = async function (req, res) {
+  try {
   let accessToken = await AccessToken.findOne({ token: req.query.accessToken });
   console.log(accessToken, 'AccessToken');
   if (accessToken) {
@@ -49,9 +60,14 @@ module.exports.resetPassword = async function (req, res) {
 
   req.flash('error', 'Token is Expired ! Pls regenerate it.');
   return res.redirect('/auth');
+  } catch (error) {
+    console.log("Error", error);
+    return res.redirect('back');
+  }
 }
 
 module.exports.reset = async function (request, response) {
+  try {
   console.log(request.query)
   let accessToken = await AccessToken.findOne({ token: request.query.accessToken });
   console.log(accessToken, 'AccessToken')
@@ -84,4 +100,8 @@ module.exports.reset = async function (request, response) {
 
   request.flash('error', 'Token is Expired ! Pls regenerate it.');
   return response.redirect('/auth');
+} catch (error) {
+  console.log("Error", error);
+  return res.redirect('back');
+}
 }

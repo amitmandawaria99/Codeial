@@ -4,6 +4,7 @@ const AccessToken = require('../models/accessToken');
 module.exports.resetPassword = function (accessToken) {
   let htmlString = nodeMailer.renderTemplate({ accessToken: accessToken }, "/reset_password/reset_password.ejs");
 
+  console.log("htmlString",htmlString);
   nodeMailer.transporter.sendMail({
     from: "amitmandawaria99@gmail.com", //sender address
     to: accessToken.user.email, //list of receivers

@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String
   },
+  avatar_public_id:{
+    type:String
+  },
   friends: [
     {
       type: mongoose.Schema.Types.ObjectId,
