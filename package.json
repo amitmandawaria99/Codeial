@@ -2,7 +2,7 @@
   "name": "codeial",
   "version": "1.0.0",
   "engines": {
-    "node": "14.14.0"
+    "node": "16.19.1"
   },
   "description": "My social Media website",
   "main": "index.js",
