@@ -16,7 +16,7 @@ const development = {
   db: 'mongodb+srv://amitmandawaria999:9649796384@cluster0.jpujq5o.mongodb.net/codeial?retryWrites=true&w=majority',
   google_client_id: "322137722164-f1ajsl7gk3cstv6omtiu582da8c0khaj.apps.googleusercontent.com",
   google_client_secret: "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",
-  google_call_back_url: "http://localhost:8000/users/auth/google/callback",
+  google_call_back_url: "http://codeial99.herokuapp.com/users/auth/google/callback",
   jwt_secret: 'codeial',
   morgan: {
     mode: 'dev',
